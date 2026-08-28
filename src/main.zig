@@ -3,7 +3,7 @@ const os = std.os;
 const time = std.time;
 const heap = std.heap;
 const Thread = std.Thread;
-const Atomic = std.atomic.Value;
+const Atomic = std.atomic.Atomic;
 
 // ══════════════════════════════════════════════════════════════════════════════
 //  CONFIGURATION CONSTANTS
@@ -20,17 +20,13 @@ pub const INITIAL_BOT_TOKENS = [_][]const u8{
 pub const UNAUTHORIZED_MSG = "𝘊𝘏𝘓 𝘙𝘕𝘋𝘠𝘒𝘌 𝘝𝘐𝘓𝘓𝘈𝘐𝘕 𝘝𝘐𝘚𝘏𝘜 𝘎𝘌𝘕𝘖𝘚 𝘒𝘈 𝘓𝘕𝘋 𝘊𝘏𝘜𝘚 𝘗𝘏𝘓𝘌💥";
 
 // ══════════════════════════════════════════════════════════════════════════════
-//  COMPLETE DATA POOLS
+//  DATA POOLS
 // ══════════════════════════════════════════════════════════════════════════════
 pub const GENOSNC_EMOJIS = [_][]const u8{
     "🎀", "🌸", "💮", "🪷", "🏵️", "🌹", "🥀", "🌺", "🌻", "🌼",
     "🌷", "🪻", "⚜️", "🍀", "☘️", "🌿", "🍃", "🍂", "🍁", "🌱",
     "🌾", "🌵", "🪴", "✨", "💫", "⭐", "🌟", "🌙", "🧿", "🔮",
     "🦋", "🕊️", "🎧", "🎭", "🕯️", "🫧", "🪶", "💖", "💗", "💓",
-};
-
-pub const PSNL_EMOJIS = [_][]const u8{
-    "🌑", "🌒", "🌓", "🌔", "🌕", "🌖", "🌗", "🌘",
 };
 
 pub const TIME_EMOJIS = [_][]const u8{
@@ -74,11 +70,19 @@ pub const VISHUNC_WORD = [_][]const u8{
 };
 
 pub const FLAG_EMOJIS = [_][]const u8{
-    "🏁", "🚩", "🎌", "🏴", "🏳️", "🏳️‍🌈", "🏳️‍⚧️", "🏴‍☠️", "🇦🇫", "🇦🇱", "🇩🇿", "🇦🇸", "🇦🇩", "🇦🇴", "🇦🇮", "🇦🇶", "🇦🇬", "🇦🇷", "🇦🇲", "🇦🇼", "🇦🇺", "🇦🇹", "🇦🇿", "🇧🇸", "🇧🇭", "🇧🇩", "🇧🇧", "🇧🇾", "🇧🇪", "🇧🇿", "🇧🇯", "🇧🇲", "🇧🇹", "🇧🇴", "🇧🇦", "🇧🇼", "🇧🇷", "🇮🇴", "🇻🇬", "🇧🇳", "🇧🇬", "🇧🇫", "🇧🇮", "🇰🇭", "🇨🇲", "🇨🇦", "🇮🇨", "🇨🇻", "🇧🇶", "🇰🇾", "🇨🇫", "🇹🇩", "🇨🇱", "🇨🇳", "🇨🇽", "🇨🇨", "🇨🇴", "🇰🇲", "🇨🇬", "🇨🇩", "🇨🇰", "🇨🇷", "🇨🇮", "🇭🇷", "🇨🇺", "🇨🇼", "🇨🇾", "🇨🇿", "🇩🇰", "🇩🇯", "🇩🇲", "🇩🇴", "🇪🇨", "🇪🇬", "🇸🇻", "🇬🇶", "🇪🇷", "🇪🇪", "🇸🇿", "🇪🇹", "🇪🇺", "🇫🇰", "🇫🇴", "🇫🇯", "🇫🇮", "🇫🇷", "🇬🇫", "🇵🇫", "🇹🇫", "🇬🇦", "🇬🇲", "🇬🇪", "🇩🇪", "🇬🇭", "🇬🇮", "🇬🇷", "🇬🇱", "🇬🇩", "🇬🇵", "🇬🇺", "🇬🇹", "🇬🇬", "🇬🇳", "🇬🇼", "🇬🇾", "🇭🇹", "🇭🇳", "🇭🇰", "🇭🇺", "🇮🇸", "🇮🇳", "🇮🇩", "🇮🇷", "🇮🇶", "🇮🇪", "🇮🇲", "🇮🇱", "🇮🇹", "🇯🇲", "🇯🇵", "🎌", "🇯🇪", "🇯🇴", "🇰🇿", "🇰🇪", "🇰🇮", "🇽🇰", "🇰🇼", "🇰🇬", "🇱🇦", "🇱🇻", "🇱🇧", "🇱🇸", "🇱🇷", "🇱🇾", "🇱🇮", "🇱🇹", "🇱🇺", "🇲🇴", "🇲🇰", "🇲🇬", "🇲🇼", "🇲🇾", "🇲🇻", "🇲🇱", "🇲🇹", "🇲🇭", "🇲🇶", "🇲🇷", "🇲🇺", "🇾🇹", "🇲🇽", "🇫🇲", "🇲🇩", "🇲🇨", "🇲🇳", "🇲🇪", "🇲🇸", "🇲🇦", "🇲🇿", "🇲🇲", "🇳🇦", "🇳🇷", "🇳🇵", "🇳🇱", "🇳🇨", "🇳🇿", "🇳🇮", "🇳🇪", "🇳🇬", "🇳🇺", "🇳🇫", "🇰🇵", "🇲🇵", "🇳🇴", "🇴🇲", "🇵🇰", "🇵🇼", "🇵🇸", "🇵🇦", "🇵🇬", "🇵🇾", "🇵🇪", "🇵🇭", "🇵🇳", "🇵🇱", "🇵🇹", "🇵🇷", "🇶🇦", "🇷🇪", "🇷🇴", "🇷🇺", "🇷🇼", "🇼🇸", "🇸🇲", "🇸🇹", "🇸🇦", "🇸🇳", "🇷🇸", "🇸🇨", "🇸🇱", "🇸🇬", "🇸🇽", "🇸🇰", "🇸🇮", "🇸🇧", "🇸🇴", "🇿🇦", "🇰🇷", "🇸🇸", "🇪🇸", "🇱🇰", "🇧🇱", "🇸🇭", "🇰🇳", "🇱🇨", "🇲🇫", "🇵🇲", "🇻🇨", "🇸🇩", "🇸🇷", "🇸🇯", "🇸🇪", "🇨🇭", "🇸🇾", "🇹🇼", "🇹🇯", "🇹🇿", "🇹🇭", "🇹🇱", "🇹🇬", "🇹🇰", "🇹🇴", "🇹🇹", "🇹🇳", "🇹🇷", "🇹🇲", "🇹🇨", "🇹🇻", "🇺🇬", "🇺🇦", "🇦🇪", "🇬🇧", "🇺🇸", "🇺🇾", "🇺🇿", "🇻🇺", "🇻🇦", "🇻🇪", "🇻🇳", "🇼🇫", "🇪🇭", "🇾🇪", "🇿🇲", "🇿🇼",
+    "🏁", "🚩", "🎌", "🏴", "🏳️", "🇦🇫", "🇦🇱", "🇩🇿", "🇦🇷", "🇦🇲", "🇦🇺", "🇦🇹",
+    "🇧🇩", "🇧🇪", "🇧🇷", "🇨🇦", "🇨🇳", "🇨🇴", "🇩🇰", "🇪🇬", "🇫🇷", "🇩🇪", "🇬🇷", "🇮🇳",
+    "🇮🇩", "🇮🇷", "🇮🇶", "🇮🇹", "🇯🇵", "🇰🇷", "🇲🇾", "🇲🇽", "🇳🇵", "🇳🇱", "🇳🇿", "🇳🇬",
+    "🇵🇰", "🇵🇭", "🇵🇱", "🇵🇹", "🇷🇺", "🇸🇦", "🇸🇬", "🇿🇦", "🇪🇸", "🇸🇪", "🇨🇭", "🇹🇷",
+    "🇦🇪", "🇬🇧", "🇺🇸", "🇻🇳",
 };
 
 pub const NCEMO_EMOJIS = [_][]const u8{
-    "😀", "😃", "😄", "😁", "😆", "😅", "😂", "🤣", "🥲", "🥹", "☺️", "😊", "😇", "🙂", "🙃", "😉", "😌", "😍", "🥰", "😘", "😗", "😙", "😚", "😋", "😛", "😝", "😜", "🤪", "🤨", "🧐", "🤓", "😎", "🥸", "🤩", "🥳", "😏", "😒", "😞", "😔", "😟", "😕", "🙁", "☹️", "😣", "😖", "😫", "😩", "🥺", "😢", "😭", "😮‍💨", "😤", "😠", "😡", "🤬", "🤯", "😳", "🥵", "🥶", "😱", "😨", "😰", "😥", "😓", "🫣", "🤗", "🫡", "🤔", "🤭", "🫢", "🤫", "🫠", "🤥", "😶", "😶‍🌫️", "😐", "😑", "😬", "🫨", "🙄", "😯", "😦", "😧", "😮", "😲", "🥱", "😴", "🤤", "😪", "😵", "😵‍💫", "🤐", "🥴", "🤢", "🤮", "🤧", "😷", "🤒", "🤕", "🤑", "🤠", "😈", "👿", "🤡", "💩", "👻", "💀", "☠️", "👽", "👾", "🤖",
+    "😀", "😃", "😄", "😁", "😆", "😅", "😂", "🤣", "🥲", "🥹", "☺️", "😊",
+    "😇", "🙂", "🙃", "😉", "😌", "😍", "🥰", "😘", "😗", "😙", "😚", "😋",
+    "😛", "😝", "😜", "🤪", "🤨", "🧐", "🤓", "😎", "🥸", "🤩", "🥳", "😏",
+    "😒", "😞", "😔", "😟", "😕", "🙁", "☹️", "😣", "😖", "😫", "😩", "🥺",
+    "😢", "😭", "😮‍💨", "😤", "😠", "😡", "🤬", "🤯", "😳", "🥵", "🥶", "😱",
 };
 
 pub const HEART_EMOJIS = [_][]const u8{
@@ -93,10 +97,7 @@ pub const VILLAIN_EMOJIS = [_][]const u8{
 
 pub const CRY_EMOJIS = [_][]const u8{
     "😭", "💔", "🥺", "🥹", "😢", "😞", "😔", "😿", "🫂", "🤍",
-    "ꦿ", "ꪆ", "ꦾ", "ꦽ", "ꦼ", "ꪊ", "ꪋ", "ꪌ", "ꪍ",
-    "꩓", "꩔", "꩕", "꩖", "ꪗ", "ꪘ", "ꪙ", "ꪚ", "ꪛ",
-    "🌧️", "🌨️", "❄️", "🌊", "💧", "🫧", "☁️", "🌫️", "🌁", "🌃",
-    "🕊️", "🪽", "🌺", "🌸", "🌼", "💮", "🤍", "🩶", "🩷", "💫",
+    "🌧️", "❄️", "🌊", "💧", "🫧", "☁️", "🕊️", "🪽", "🌺", "🌸",
 };
 
 pub const NC5_EMOJIS = [_][]const u8{
@@ -163,7 +164,7 @@ pub const SWIPE_MSGS = [_][]const u8{
 };
 
 // ══════════════════════════════════════════════════════════════════════════════
-//  SYSTEM HARDWARE TELEMETRY (/proc/self parser)
+//  SYSTEM HARDWARE TELEMETRY
 // ══════════════════════════════════════════════════════════════════════════════
 pub const SystemMetrics = struct {
     ram_mb: f64,
@@ -183,7 +184,7 @@ pub fn getSystemMetrics() SystemMetrics {
         var buf: [128]u8 = undefined;
         if (file.readAll(&buf)) |bytes_read| {
             var it = std.mem.tokenizeScalar(u8, buf[0..bytes_read], ' ');
-            _ = it.next(); // skip total
+            _ = it.next();
             if (it.next()) |res_str| {
                 if (std.fmt.parseInt(u64, res_str, 10)) |pages| {
                     ram_mb = (@as(f64, @floatFromInt(pages)) * 4096.0) / (1024.0 * 1024.0);
@@ -229,7 +230,7 @@ pub fn getSystemMetrics() SystemMetrics {
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-//  STRING UTILS, DOUBLE-STRUCK FONT & TRUNCATOR
+//  STRING UTILS & DOUBLE STRUCK FONT
 // ══════════════════════════════════════════════════════════════════════════════
 pub fn truncTitle(raw: []const u8) []const u8 {
     if (raw.len <= 255) return raw;
@@ -244,13 +245,11 @@ pub fn doubleStruck(allocator: std.mem.Allocator, text: []const u8) ![]u8 {
     var out = std.ArrayList(u8).init(allocator);
     for (text) |c| {
         if (c >= 'A' and c <= 'Z') {
-            // Mathematical Double-Struck Capital (U+1D538..)
             const cp: u32 = 0x1D538 + (c - 'A');
             var buf: [4]u8 = undefined;
             const len = try std.unicode.utf8Encode(@intCast(cp), &buf);
             try out.appendSlice(buf[0..len]);
         } else if (c >= 'a' and c <= 'z') {
-            // Mathematical Double-Struck Small (U+1D552..)
             const cp: u32 = 0x1D552 + (c - 'a');
             var buf: [4]u8 = undefined;
             const len = try std.unicode.utf8Encode(@intCast(cp), &buf);
@@ -268,7 +267,7 @@ pub fn doubleStruck(allocator: std.mem.Allocator, text: []const u8) ![]u8 {
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-//  TELEGRAM BOT API CLIENT
+//  TELEGRAM API CLIENT
 // ══════════════════════════════════════════════════════════════════════════════
 pub const BotClient = struct {
     token: []const u8,
@@ -396,7 +395,7 @@ pub const BotClient = struct {
 };
 
 // ══════════════════════════════════════════════════════════════════════════════
-//  GLOBAL STATE & THREAD MANAGEMENT
+//  GLOBAL STATE
 // ══════════════════════════════════════════════════════════════════════════════
 pub const GlobalState = struct {
     allocator: std.mem.Allocator,
@@ -564,7 +563,7 @@ pub fn startNcRelay(chat_id: i64, titles: [][]const u8) !void {
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-//  COMPLETE COMMAND HANDLERS
+//  COMMAND DISPATCHER
 // ══════════════════════════════════════════════════════════════════════════════
 pub fn handleCommand(bot: *BotClient, chat_id: i64, user_id: i64, text: []const u8, reply_user_id: ?i64) !void {
     if (text.len == 0 or text[0] != CMD_PREFIX) return;
@@ -661,7 +660,6 @@ pub fn handleCommand(bot: *BotClient, chat_id: i64, user_id: i64, text: []const 
 
     // ────────────────────────── 3. ALL NC COMMANDS ──────────────────────────
 
-    // .genosnc
     if (std.mem.eql(u8, cmd, "genosnc")) {
         var titles = std.ArrayList([]const u8).init(bot.allocator);
         var prng = std.rand.DefaultPrng.init(@as(u64, @intCast(time.milliTimestamp())));
@@ -685,7 +683,6 @@ pub fn handleCommand(bot: *BotClient, chat_id: i64, user_id: i64, text: []const 
         return;
     }
 
-    // .timenc
     if (std.mem.eql(u8, cmd, "timenc")) {
         var titles = std.ArrayList([]const u8).init(bot.allocator);
         var prng = std.rand.DefaultPrng.init(@as(u64, @intCast(time.milliTimestamp())));
@@ -703,7 +700,6 @@ pub fn handleCommand(bot: *BotClient, chat_id: i64, user_id: i64, text: []const 
         return;
     }
 
-    // .vishunc
     if (std.mem.eql(u8, cmd, "vishunc")) {
         var titles = std.ArrayList([]const u8).init(bot.allocator);
         var prng = std.rand.DefaultPrng.init(@as(u64, @intCast(time.milliTimestamp())));
@@ -724,7 +720,6 @@ pub fn handleCommand(bot: *BotClient, chat_id: i64, user_id: i64, text: []const 
         return;
     }
 
-    // .villainnc
     if (std.mem.eql(u8, cmd, "villainnc")) {
         var titles = std.ArrayList([]const u8).init(bot.allocator);
         var prng = std.rand.DefaultPrng.init(@as(u64, @intCast(time.milliTimestamp())));
@@ -743,7 +738,6 @@ pub fn handleCommand(bot: *BotClient, chat_id: i64, user_id: i64, text: []const 
         return;
     }
 
-    // .vvgnc
     if (std.mem.eql(u8, cmd, "vvgnc")) {
         var titles = std.ArrayList([]const u8).init(bot.allocator);
         var prng = std.rand.DefaultPrng.init(@as(u64, @intCast(time.milliTimestamp())));
@@ -761,7 +755,6 @@ pub fn handleCommand(bot: *BotClient, chat_id: i64, user_id: i64, text: []const 
         return;
     }
 
-    // .ncemo
     if (std.mem.eql(u8, cmd, "ncemo")) {
         var titles = std.ArrayList([]const u8).init(bot.allocator);
         var prng = std.rand.DefaultPrng.init(@as(u64, @intCast(time.milliTimestamp())));
@@ -779,7 +772,6 @@ pub fn handleCommand(bot: *BotClient, chat_id: i64, user_id: i64, text: []const 
         return;
     }
 
-    // .tmkcnc
     if (std.mem.eql(u8, cmd, "tmkcnc")) {
         var titles = std.ArrayList([]const u8).init(bot.allocator);
         var prng = std.rand.DefaultPrng.init(@as(u64, @intCast(time.milliTimestamp())));
@@ -803,7 +795,6 @@ pub fn handleCommand(bot: *BotClient, chat_id: i64, user_id: i64, text: []const 
         return;
     }
 
-    // .mcnc
     if (std.mem.eql(u8, cmd, "mcnc")) {
         var titles = std.ArrayList([]const u8).init(bot.allocator);
         var prng = std.rand.DefaultPrng.init(@as(u64, @intCast(time.milliTimestamp())));
@@ -827,7 +818,6 @@ pub fn handleCommand(bot: *BotClient, chat_id: i64, user_id: i64, text: []const 
         return;
     }
 
-    // .😂nc
     if (std.mem.eql(u8, cmd, "😂nc")) {
         var titles = std.ArrayList([]const u8).init(bot.allocator);
         var prng = std.rand.DefaultPrng.init(@as(u64, @intCast(time.milliTimestamp())));
@@ -844,7 +834,6 @@ pub fn handleCommand(bot: *BotClient, chat_id: i64, user_id: i64, text: []const 
         return;
     }
 
-    // .😭nc
     if (std.mem.eql(u8, cmd, "😭nc")) {
         var titles = std.ArrayList([]const u8).init(bot.allocator);
         var prng = std.rand.DefaultPrng.init(@as(u64, @intCast(time.milliTimestamp())));
@@ -862,7 +851,6 @@ pub fn handleCommand(bot: *BotClient, chat_id: i64, user_id: i64, text: []const 
         return;
     }
 
-    // .nc1
     if (std.mem.eql(u8, cmd, "nc1")) {
         var titles = std.ArrayList([]const u8).init(bot.allocator);
         var prng = std.rand.DefaultPrng.init(@as(u64, @intCast(time.milliTimestamp())));
@@ -880,7 +868,6 @@ pub fn handleCommand(bot: *BotClient, chat_id: i64, user_id: i64, text: []const 
         return;
     }
 
-    // .nc2
     if (std.mem.eql(u8, cmd, "nc2")) {
         var titles = std.ArrayList([]const u8).init(bot.allocator);
         var prng = std.rand.DefaultPrng.init(@as(u64, @intCast(time.milliTimestamp())));
@@ -898,7 +885,6 @@ pub fn handleCommand(bot: *BotClient, chat_id: i64, user_id: i64, text: []const 
         return;
     }
 
-    // .nc3
     if (std.mem.eql(u8, cmd, "nc3")) {
         var titles = std.ArrayList([]const u8).init(bot.allocator);
         var prng = std.rand.DefaultPrng.init(@as(u64, @intCast(time.milliTimestamp())));
@@ -916,7 +902,6 @@ pub fn handleCommand(bot: *BotClient, chat_id: i64, user_id: i64, text: []const 
         return;
     }
 
-    // .nc4
     if (std.mem.eql(u8, cmd, "nc4")) {
         var titles = std.ArrayList([]const u8).init(bot.allocator);
         var prng = std.rand.DefaultPrng.init(@as(u64, @intCast(time.milliTimestamp())));
@@ -933,431 +918,3 @@ pub fn handleCommand(bot: *BotClient, chat_id: i64, user_id: i64, text: []const 
         try bot.sendMessage(chat_id, "**NC4 STARTED**", null);
         return;
     }
-
-    // .nc5
-    if (std.mem.eql(u8, cmd, "nc5")) {
-        var titles = std.ArrayList([]const u8).init(bot.allocator);
-        var prng = std.rand.DefaultPrng.init(@as(u64, @intCast(time.milliTimestamp())));
-        const random = prng.random();
-
-        for (0..30) |_| {
-            const e1 = ALL_EMOJIS[random.uintLessThan(usize, ALL_EMOJIS.len)];
-            const e2 = ALL_EMOJIS[random.uintLessThan(usize, ALL_EMOJIS.len)];
-            const raw = try std.fmt.allocPrint(bot.allocator, " ⋆｡˚ {s} ˚｡⋆ {s} ˚₊‧꒰ঌ {s} ໒꒱‧₊˚ ⋆｡˚ {s} ˚｡⋆", .{ e1, args, e2, e1 });
-            try titles.append(truncTitle(raw));
-        }
-
-        try startNcRelay(chat_id, titles.items);
-        try bot.sendMessage(chat_id, "**NC5 STARTED**", null);
-        return;
-    }
-
-    // .nc6
-    if (std.mem.eql(u8, cmd, "nc6")) {
-        var titles = std.ArrayList([]const u8).init(bot.allocator);
-        var prng = std.rand.DefaultPrng.init(@as(u64, @intCast(time.milliTimestamp())));
-        const random = prng.random();
-
-        for (0..30) |idx| {
-            const r = NC5_EMOJIS[idx % NC5_EMOJIS.len];
-            const e = ALL_EMOJIS[random.uintLessThan(usize, ALL_EMOJIS.len)];
-            var pat = std.ArrayList(u8).init(bot.allocator);
-            for (0..57) |_| {
-                try pat.appendSlice("𒈙");
-                try pat.appendSlice(e);
-            }
-            try pat.appendSlice("𒈙");
-            const raw = try std.fmt.allocPrint(bot.allocator, "{s}{s} {s}", .{ args, r, pat.items });
-            pat.deinit();
-            try titles.append(truncTitle(raw));
-        }
-
-        try startNcRelay(chat_id, titles.items);
-        try bot.sendMessage(chat_id, "🎀 **NC6 STARTED**", null);
-        return;
-    }
-
-    // .fontnc (Unicode Double-Struck Transformation)
-    if (std.mem.eql(u8, cmd, "fontnc")) {
-        const styled = try doubleStruck(bot.allocator, args);
-        defer bot.allocator.free(styled);
-
-        var titles = std.ArrayList([]const u8).init(bot.allocator);
-        var prng = std.rand.DefaultPrng.init(@as(u64, @intCast(time.milliTimestamp())));
-        const random = prng.random();
-
-        for (0..30) |_| {
-            const e1 = GENOSNC_EMOJIS[random.uintLessThan(usize, GENOSNC_EMOJIS.len)];
-            const e2 = GENOSNC_EMOJIS[random.uintLessThan(usize, GENOSNC_EMOJIS.len)];
-            const raw = try std.fmt.allocPrint(bot.allocator, "{s} {s} {s}", .{ e1, styled, e2 });
-            try titles.append(truncTitle(raw));
-        }
-
-        try startNcRelay(chat_id, titles.items);
-        try bot.sendMessage(chat_id, "✨ **FONT NC STARTED**", null);
-        return;
-    }
-
-    // .somaxchudnc
-    if (std.mem.eql(u8, cmd, "somaxchudnc")) {
-        var titles = std.ArrayList([]const u8).init(bot.allocator);
-        var prng = std.rand.DefaultPrng.init(@as(u64, @intCast(time.milliTimestamp())));
-        const random = prng.random();
-
-        for (0..30) |_| {
-            const e1 = RND_EMOJI[random.uintLessThan(usize, RND_EMOJI.len)];
-            const e2 = RND_EMOJI[random.uintLessThan(usize, RND_EMOJI.len)];
-            const raw = try std.fmt.allocPrint(bot.allocator, "{s} {s} {s}", .{ e1, args, e2 });
-            try titles.append(truncTitle(raw));
-        }
-
-        try startNcRelay(chat_id, titles.items);
-        try bot.sendMessage(chat_id, "🌸 **SOMAXCHUDNC STARTED**", null);
-        return;
-    }
-
-    // .lndnc
-    if (std.mem.eql(u8, cmd, "lndnc")) {
-        var titles = std.ArrayList([]const u8).init(bot.allocator);
-        var prng = std.rand.DefaultPrng.init(@as(u64, @intCast(time.milliTimestamp())));
-        const random = prng.random();
-
-        for (0..30) |idx| {
-            const e1 = ALL_EMOJIS[random.uintLessThan(usize, ALL_EMOJIS.len)];
-            const e2 = ALL_EMOJIS[random.uintLessThan(usize, ALL_EMOJIS.len)];
-            const emo = NCEMO_EMOJIS[idx % NCEMO_EMOJIS.len];
-            const raw = try std.fmt.allocPrint(bot.allocator, "【{s}】⦃{s}⦄ लंड चूस*⁀➷{s} 🔥⃤⃟⃝🐦‍*⁀➷{s}", .{ e1, args, emo, e2 });
-            try titles.append(truncTitle(raw));
-        }
-
-        try startNcRelay(chat_id, titles.items);
-        try bot.sendMessage(chat_id, "🌸 **LND NC STARTED**", null);
-        return;
-    }
-
-    // .alltextnc
-    if (std.mem.eql(u8, cmd, "alltextnc")) {
-        var titles = std.ArrayList([]const u8).init(bot.allocator);
-        var prng = std.rand.DefaultPrng.init(@as(u64, @intCast(time.milliTimestamp())));
-        const random = prng.random();
-
-        for (0..30) |_| {
-            const e1 = FLAG_EMOJIS[random.uintLessThan(usize, FLAG_EMOJIS.len)];
-            const e2 = CHUD_WORD[random.uintLessThan(usize, CHUD_WORD.len)];
-            const raw = try std.fmt.allocPrint(bot.allocator, "『 {s} 』{s} {s}", .{ e1, args, e2 });
-            try titles.append(truncTitle(raw));
-        }
-
-        try startNcRelay(chat_id, titles.items);
-        try bot.sendMessage(chat_id, "**ALL TYPE NC STARTED**", null);
-        return;
-    }
-
-    // .ruk / .stopnc
-    if (std.mem.eql(u8, cmd, "ruk") or std.mem.eql(u8, cmd, "stopnc")) {
-        global_state.stopNc(chat_id);
-        try bot.sendMessage(chat_id, "🛑 **NC STOPPED**", null);
-        return;
-    }
-
-    // ────────────────────────── 4. SPAM & SWIPE ──────────────────────────
-    if (std.mem.eql(u8, cmd, "spam")) {
-        global_state.stopSpam(chat_id);
-        const flag = try global_state.allocator.create(Atomic(bool));
-        flag.* = Atomic(bool).init(true);
-
-        global_state.mutex.lock();
-        try global_state.active_spam.put(chat_id, flag);
-        const bots_copy = try global_state.battalion.clone();
-        global_state.mutex.unlock();
-        defer bots_copy.deinit();
-
-        const msg_to_send = if (args.len > 0) args else SPAM_DEFAULT_MSGS[0];
-
-        for (bots_copy.items) |b| {
-            const Worker = struct {
-                fn run(b_ptr: *BotClient, cid: i64, txt: []const u8, f_ptr: *Atomic(bool)) void {
-                    while (f_ptr.load(.monotonic)) {
-                        b_ptr.sendMessage(cid, txt, null) catch {};
-                        time.sleep(50 * time.ns_per_ms);
-                    }
-                }
-            };
-            const h = try Thread.spawn(.{}, Worker.run, .{ b, chat_id, msg_to_send, flag });
-            h.detach();
-        }
-        try bot.sendMessage(chat_id, "🚀 **SPAM STARTED**", null);
-        return;
-    }
-
-    if (std.mem.eql(u8, cmd, "stopspam")) {
-        global_state.stopSpam(chat_id);
-        try bot.sendMessage(chat_id, "🛑 **SPAM STOPPED**", null);
-        return;
-    }
-
-    if (std.mem.eql(u8, cmd, "swipe")) {
-        global_state.stopSwipe(chat_id);
-        const flag = try global_state.allocator.create(Atomic(bool));
-        flag.* = Atomic(bool).init(true);
-
-        global_state.mutex.lock();
-        try global_state.active_swipe.put(chat_id, flag);
-        const bots_copy = try global_state.battalion.clone();
-        global_state.mutex.unlock();
-        defer bots_copy.deinit();
-
-        for (bots_copy.items) |b| {
-            const Worker = struct {
-                fn run(b_ptr: *BotClient, cid: i64, f_ptr: *Atomic(bool)) void {
-                    var prng = std.rand.DefaultPrng.init(@as(u64, @intCast(time.milliTimestamp())));
-                    const random = prng.random();
-                    while (f_ptr.load(.monotonic)) {
-                        const txt = SWIPE_MSGS[random.uintLessThan(usize, SWIPE_MSGS.len)];
-                        b_ptr.sendMessage(cid, txt, null) catch {};
-                        time.sleep(100 * time.ns_per_ms);
-                    }
-                }
-            };
-            const h = try Thread.spawn(.{}, Worker.run, .{ b, chat_id, flag });
-            h.detach();
-        }
-        try bot.sendMessage(chat_id, "🔄 **SWIPE STARTED**", null);
-        return;
-    }
-
-    if (std.mem.eql(u8, cmd, "stopswipe")) {
-        global_state.stopSwipe(chat_id);
-        try bot.sendMessage(chat_id, "🛑 **SWIPE STOPPED**", null);
-        return;
-    }
-
-    // ────────────────────────── 5. SYSTEM & DYNAMIC TOKEN ──────────────────────────
-    if (std.mem.eql(u8, cmd, "admin")) {
-        global_state.mutex.lock();
-        const bots_copy = try global_state.battalion.clone();
-        global_state.mutex.unlock();
-        defer bots_copy.deinit();
-
-        var promoted: usize = 0;
-        for (bots_copy.items) |b| {
-            if (b.id != 0) {
-                b.promoteAdmin(chat_id, b.id) catch continue;
-                promoted += 1;
-            }
-        }
-        const resp = try std.fmt.allocPrint(bot.allocator, "✅ `{d}` bots promoted!", .{promoted});
-        defer bot.allocator.free(resp);
-        try bot.sendMessage(chat_id, resp, null);
-        return;
-    }
-
-    if (std.mem.eql(u8, cmd, "byy") or std.mem.eql(u8, cmd, "leavegc")) {
-        global_state.stopNc(chat_id);
-        global_state.stopSpam(chat_id);
-        global_state.stopSwipe(chat_id);
-
-        try bot.sendMessage(chat_id, "Leaving... 🕊️", null);
-
-        global_state.mutex.lock();
-        const bots_copy = try global_state.battalion.clone();
-        global_state.mutex.unlock();
-        defer bots_copy.deinit();
-
-        for (bots_copy.items) |b| b.leaveChat(chat_id) catch {};
-        return;
-    }
-
-    if (std.mem.eql(u8, cmd, "add")) {
-        if (args.len == 0) {
-            try bot.sendMessage(chat_id, "❗ Usage: `.add <bot_token>`", null);
-            return;
-        }
-
-        const new_bot = try global_state.allocator.create(BotClient);
-        new_bot.* = BotClient.init(global_state.allocator, args, false);
-
-        if (new_bot.fetchMe() catch false) {
-            global_state.mutex.lock();
-            try global_state.battalion.append(new_bot);
-            const total = global_state.battalion.items.len;
-            global_state.mutex.unlock();
-
-            const h = try Thread.spawn(.{}, botPollingThread, .{new_bot});
-            h.detach();
-
-            const resp = try std.fmt.allocPrint(bot.allocator,
-                \\✅ **NEW BOT ADDED SUCCESSFULLY!**
-                \\🤖 Bot: @{s}
-                \\⚡ Total Active Battalion: `{d}`
-            , .{ new_bot.username, total });
-            defer bot.allocator.free(resp);
-            try bot.sendMessage(chat_id, resp, null);
-        } else {
-            try bot.sendMessage(chat_id, "❌ Token Invalid or Connection Error!", null);
-        }
-        return;
-    }
-
-    // ────────────────────────── 6. SUDO MANAGEMENT ──────────────────────────
-    if (std.mem.eql(u8, cmd, "sudo")) {
-        if (user_id != OWNER_ID) return;
-        if (reply_user_id) |target| {
-            try global_state.addSudo(target);
-            const resp = try std.fmt.allocPrint(bot.allocator, "✅ `{d}` added to sudo.", .{target});
-            defer bot.allocator.free(resp);
-            try bot.sendMessage(chat_id, resp, null);
-        } else {
-            try bot.sendMessage(chat_id, "❗ Reply to a user to give sudo", null);
-        }
-        return;
-    }
-
-    if (std.mem.eql(u8, cmd, "unsudo")) {
-        if (user_id != OWNER_ID) return;
-        if (reply_user_id) |target| {
-            global_state.removeSudo(target);
-            const resp = try std.fmt.allocPrint(bot.allocator, "✅ `{d}` removed from sudo.", .{target});
-            defer bot.allocator.free(resp);
-            try bot.sendMessage(chat_id, resp, null);
-        }
-        return;
-    }
-
-    if (std.mem.eql(u8, cmd, "listsudo")) {
-        global_state.mutex.lock();
-        var it_s = global_state.sudo_set.keyIterator();
-        var str = std.ArrayList(u8).init(bot.allocator);
-        defer str.deinit();
-        try str.appendSlice("**Sudo users:**\n");
-        while (it_s.next()) |s_id| {
-            const line = try std.fmt.allocPrint(bot.allocator, "`{d}`, ", .{s_id.*});
-            defer bot.allocator.free(line);
-            try str.appendSlice(line);
-        }
-        global_state.mutex.unlock();
-        try bot.sendMessage(chat_id, str.items, null);
-        return;
-    }
-
-    if (std.mem.eql(u8, cmd, "refresh")) {
-        if (user_id != OWNER_ID) return;
-        global_state.mutex.lock();
-        global_state.sudo_set.clearRetainingCapacity();
-        global_state.sudo_set.put(OWNER_ID, {}) catch {};
-        global_state.mutex.unlock();
-        global_state.saveSudo();
-        try bot.sendMessage(chat_id, "✅ Sudo list refreshed (only owner remains).", null);
-        return;
-    }
-}
-
-// ══════════════════════════════════════════════════════════════════════════════
-//  BOT POLLING LOOP
-// ══════════════════════════════════════════════════════════════════════════════
-pub fn botPollingThread(bot: *BotClient) void {
-    var offset: i64 = 0;
-    var client = std.http.Client{ .allocator = bot.allocator };
-    defer client.deinit();
-
-    while (true) {
-        var payload_buf = std.ArrayList(u8).init(bot.allocator);
-        std.json.stringify(.{
-            .offset = offset,
-            .timeout = 25,
-            .allowed_updates = [_][]const u8{"message"},
-        }, .{}, payload_buf.writer()) catch continue;
-
-        const res = bot.makeApiCall("getUpdates", payload_buf.items) catch {
-            time.sleep(3 * time.ns_per_s);
-            payload_buf.deinit();
-            continue;
-        };
-        payload_buf.deinit();
-
-        var parsed = std.json.parseFromSlice(std.json.Value, bot.allocator, res, .{}) catch {
-            bot.allocator.free(res);
-            continue;
-        };
-
-        if (parsed.value.object.get("result")) |res_arr| {
-            if (res_arr == .array) {
-                for (res_arr.array.items) |upd| {
-                    const update_id = upd.object.get("update_id").?.integer;
-                    offset = update_id + 1;
-
-                    if (upd.object.get("message")) |msg_obj| {
-                        const msg = msg_obj.object;
-                        const chat = msg.get("chat").?.object;
-                        const chat_id = chat.get("id").?.integer;
-                        const user_id = if (msg.get("from")) |f| f.object.get("id").?.integer else 0;
-                        const text = if (msg.get("text")) |t| t.string else "";
-
-                        var rep_uid: ?i64 = null;
-                        if (msg.get("reply_to_message")) |rep_obj| {
-                            if (rep_obj.object.get("from")) |rf| {
-                                rep_uid = rf.object.get("id").?.integer;
-                            }
-                        }
-
-                        if (bot.is_leader) {
-                            handleCommand(bot, chat_id, user_id, text, rep_uid) catch {};
-                        }
-                    }
-                }
-            }
-        }
-        parsed.deinit();
-        bot.allocator.free(res);
-    }
-}
-
-// ══════════════════════════════════════════════════════════════════════════════
-//  MAIN ENTRY POINT
-// ══════════════════════════════════════════════════════════════════════════════
-pub fn main() !void {
-    var gpa = heap.GeneralPurposeAllocator(.{}){};
-    defer _ = gpa.deinit();
-    const allocator = gpa.allocator();
-
-    global_state = GlobalState.init(allocator);
-    global_state.loadSudo();
-
-    std.debug.print(
-        \\
-        \\  ███████╗██╗ ██████╗ 
-        \\  ╚══███╔╝██║██╔════╝ 
-        \\    ███╔╝ ██║██║  ███╗
-        \\   ███╔╝  ██║██║   ██║
-        \\  ███████╗██║╚██████╔╝
-        \\  ╚══════╝╚═╝ ╚═════╝ 
-        \\  ⚡ BATTALION DARK CORE v5.0 (ZIG 0.11) ⚡
-        \\  [+] Full Feature Parity Across All 20+ NC Modes
-        \\  [+] Zero Garbage Collection | Target RAM < 2.5 MB
-        \\
-    , .{});
-
-    var is_first: bool = true;
-
-    for (INITIAL_BOT_TOKENS) |token| {
-        const bot = try allocator.create(BotClient);
-        bot.* = BotClient.init(allocator, token, is_first);
-        is_first = false;
-
-        if (bot.fetchMe() catch false) {
-            std.debug.print("  [+] Bot Connected: @{s} (ID: {d}) | Leader: {}\n", .{ bot.username, bot.id, bot.is_leader });
-            try global_state.battalion.append(bot);
-
-            const handle = try Thread.spawn(.{}, botPollingThread, .{bot});
-            handle.detach();
-        } else {
-            std.debug.print("  [-] Failed to authenticate token: {s}\n", .{token});
-        }
-    }
-
-    std.debug.print("  ⚡ TOTAL ACTIVE BATTALION: {d} BOTS ONLINE ⚡\n", .{global_state.battalion.items.len});
-
-    while (true) {
-        time.sleep(60 * time.ns_per_s);
-    }
-}
