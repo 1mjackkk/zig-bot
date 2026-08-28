@@ -2,9 +2,9 @@ FROM alpine:3.19 AS builder
 
 RUN apk add --no-cache curl xz tar build-base
 
-# Download Zig 0.11.0 (Exact matching version for main.zig http request)
-RUN curl -sSL https://ziglang.org/download/0.11.0/zig-linux-x86_64-0.11.0.tar.xz | tar -xJ -C /usr/local
-ENV PATH="/usr/local/zig-linux-x86_64-0.11.0:${PATH}"
+# Download Exact Patch Version Zig 0.11.3
+RUN curl -sSL https://ziglang.org/download/0.11.3/zig-linux-x86_64-0.11.3.tar.xz | tar -xJ -C /usr/local
+ENV PATH="/usr/local/zig-linux-x86_64-0.11.3:${PATH}"
 
 WORKDIR /app
 COPY . .
