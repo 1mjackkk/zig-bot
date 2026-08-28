@@ -2,6 +2,7 @@ FROM alpine:3.19 AS builder
 
 RUN apk add --no-cache curl xz tar build-base
 
+# Zig 0.11.0 install karein
 RUN curl -sSL https://ziglang.org/download/0.11.0/zig-linux-x86_64-0.11.0.tar.xz | tar -xJ -C /usr/local
 ENV PATH="/usr/local/zig-linux-x86_64-0.11.0:${PATH}"
 
