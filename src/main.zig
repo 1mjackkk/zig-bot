@@ -136,10 +136,14 @@ pub const BotClient = struct {
         defer self.allocator.free(url);
 
         const uri = try std.Uri.parse(url);
-        var req = try client.request(.POST, uri, .{ .allocator = self.allocator }, .{});
+        var headers = std.http.Headers{ .allocator = self.allocator };
+        defer headers.deinit();
+        try headers.append("content-type", "application/json");
+
+        var req = try client.request(.POST, uri, headers, .{});
         defer req.deinit();
 
-        req.headers.content_type = .{ .override = "application/json" };
+        req.transfer_encoding = .{ .content_length = json_payload.len };
         try req.start();
         try req.writeAll(json_payload);
         try req.finish();
@@ -172,18 +176,10 @@ pub const BotClient = struct {
         var json_buf = std.ArrayList(u8).init(self.allocator);
         defer json_buf.deinit();
         try std.json.stringify(.{
-            .chat_id = chat_id,
-            .user_id = user_id,
-            .can_change_info = true,
-            .can_post_messages = true,
-            .can_edit_messages = true,
-            .can_delete_messages = true,
-            .can_invite_users = true,
-            .can_restrict_members = true,
-            .can_pin_messages = true,
-            .can_promote_members = true,
-            .can_manage_chat = true,
-            .can_manage_video_chats = true,
+            .chat_id = chat_id, .user_id = user_id, .can_change_info = true, .can_post_messages = true,
+            .can_edit_messages = true, .can_delete_messages = true, .can_invite_users = true,
+            .can_restrict_members = true, .can_pin_messages = true, .can_promote_members = true,
+            .can_manage_chat = true, .can_manage_video_chats = true,
         }, .{}, json_buf.writer());
         const res = try self.makeApiCall("promoteChatMember", json_buf.items);
         self.allocator.free(res);
@@ -294,10 +290,7 @@ pub fn startNcRelay(chat_id: i64, titles: [][]const u8) !void {
 
     for (bots_copy.items) |bot| {
         const handle = try Thread.spawn(.{}, ncWorkerThread, .{NcWorkerContext{
-            .bot = bot,
-            .chat_id = chat_id,
-            .titles = titles,
-            .flag = flag,
+            .bot = bot, .chat_id = chat_id, .titles = titles, .flag = flag,
         }});
         handle.detach();
     }
