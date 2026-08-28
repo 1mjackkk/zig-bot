@@ -24,7 +24,6 @@ pub const NCEMO_EMOJIS = [_][]const u8{ "😀", "😃", "😄", "😁", "😆", 
 pub const HEART_EMOJIS = [_][]const u8{ "💖", "💗", "💓", "💞", "💕", "❤️", "🖤", "🩵", "💜", "💙", "💚", "💛", "🧡", "🤍", "🪶", "❣️" };
 pub const VILLAIN_EMOJIS = [_][]const u8{ "🏴‍☠️", "☠️", "💀", "👿", "👺", "🩸", "🔪", "⚔️", "👑", "🇦🇨", "⚡", "🔥", "💥", "🔱", "⛓️", "🖤" };
 pub const CRY_EMOJIS = [_][]const u8{ "😭", "💔", "🥺", "🥹", "😢", "😞", "😔", "😿", "🫂", "🤍", "🌧️", "❄️", "🌊", "💧", "🫧", "☁️", "🕊️", "🪽", "🌺", "🌸" };
-pub const NC5_EMOJIS = [_][]const u8{ " 🅱🅻🅾🅾🅳🆈 🅷🅴🅻🅻.𖥔 ݁ ˖ִ🛸༄˖°.", " 🅼🅾🆃🅷🅴🆁🅵🆄🅲🅺🅴🆁🌊⋆｡ 𖦹°.🐚⋆❀˖°🫧", " 🅱🅸🆃🅲🅷 🆂🅾🅽.𖥔 ݁ ˖ִ🛸༄˖°.", "🆂🅻🅰🆅🅴🌊⋆｡ 𖦹°.🐚⋆❀˖°🫧", " 🆂🅾🅽 🅾🅵 🅼🅸🅰 🅺🅷🅰🅻🅸🅵🅰 .𖥔 ݁ ˖ִ🛸༄˖°.", "🆂🅰🆈 🅶🅴🅽🅾🆂 🅳🅰🅳🅳🆈🌊⋆｡ 𖦹°.🐚⋆❀˖°🫧", "🅵🆄🅲🅺🅽🄶 🅲🅴🅽🆃🆁🅴.𖥔 ݁ ˖ִ🛸༄˖°.", " 🆂🅾🅽 🅵🆄🅲🅺🅴🅳 🅼🅾🅼🌊⋆｡ 𖦹°.🐚⋆❀˖°🫧" };
 pub const ALL_EMOJIS = [_][]const u8{ "💯", "💢", "💥", "💫", "💦", "💨", "🕳️", "💣", "💬", "👋", "👌", "✌️", "🤞", "🤟", "🤘", "👍", "👎", "✊", "👊", "👏", "🙌", "🫶", "💪", "🧠", "👀", "👁️", "🐶", "🐱", "🐭", "🦁", "🐵", "🦅", "🦉", "🦇", "🐺", "🦄", "🐝", "🦋", "🕷️", "🐍", "🐙", "🐬", "🦈", "🐅", "🌸", "🌹", "🔥", "⚡️", "🌈", "👑", "🎲", "🎯", "🚗", "🚀", "🛸", "⛵️", "🛑", "🔔", "📢", "♠️", "♥️", "♦️", "♣️" };
 pub const CHUD_WORD = [_][]const u8{ "कमजोर रण्डी 🩶᭪", "कमजोर रण्डी 🩵᭪", "TERI बहन KI BRA 👙", "TERI माँ KI BRA 👙", "𝘛𝘈𝘛𝘛𝘌💝𓂃 ࣪˖ ִֶཐི༏ཋྀ", "𝘙𝘕𝘋 💝𓂃 ࣪˖ ִֶཐི༏ཋྀ", "𝘛𝘔𝘒𝘉💝𓂃 ࣪˖ ִֶཐི༏ཋྀ", "𝘓𝘈𝘕𝘋 𝘓𝘌💝𓂃 ࣪˖ ִֶཐི༏ཋྀ", "चुद पुत्र ִֶ 𓂃🏴‍☠️⊹", "तू लंड पे(🍂)ᝰ.ᐟ", "रण्डी(🍂)ᝰ.ᐟ", "चक्का(🍂)ᝰ.ᐟ" };
 pub const SPAM_DEFAULT_MSGS = [_][]const u8{ " ོ༘₊⁺🇮🇳 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀ𝐓ʜ 𝐕ɪʟʟᴀɪɴ 𝐕ɪsʜᴜ 𝐆ᴇɴᴏs 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐈ɴᴅɪᴀ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇮🇳 ₊⁺⋆.˚", " ོ༘₊⁺🇯🇵 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀ𝐓ʜ 𝐕ɪʟʟᴀɪɴ 𝐕ɪsʜᴜ 𝐆ᴇɴᴏs 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐉ᴀᴘᴀɴ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇯🇵 ₊⁺⋆. ", " ₊⁺🇺🇸 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀ𝐓ʜ 𝐕ɪʟʟᴀɪɴ 𝐕ɪsʜᴜ 𝐆ᴇɴᴏs 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐔𝐒𝐀 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇺🇸 ₊⁺⋆.˚", " ོ༘₊⁺🇬🇧 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀ𝐓ʜ 𝐕ɪʟʟᴀɪɴ 𝐕ɪsʜᴜ 𝐆ᴇɴᴏs 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐔𝐊 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇬🇧 ₊⁺⋆.˚" };
@@ -93,15 +92,18 @@ pub fn doubleStruck(allocator: std.mem.Allocator, text: []const u8) ![]u8 {
     for (text) |c| {
         if (c >= 'A' and c <= 'Z') {
             var buf: [4]u8 = undefined;
-            const len = try std.unicode.utf8Encode(@as(u21, 0x1D538 + (c - 'A')), &buf);
+            const cp: u21 = @as(u21, 0x1D538) + @as(u21, c - 'A');
+            const len = try std.unicode.utf8Encode(cp, &buf);
             try out.appendSlice(buf[0..len]);
         } else if (c >= 'a' and c <= 'z') {
             var buf: [4]u8 = undefined;
-            const len = try std.unicode.utf8Encode(@as(u21, 0x1D552 + (c - 'a')), &buf);
+            const cp: u21 = @as(u21, 0x1D552) + @as(u21, c - 'a');
+            const len = try std.unicode.utf8Encode(cp, &buf);
             try out.appendSlice(buf[0..len]);
         } else if (c >= '0' and c <= '9') {
             var buf: [4]u8 = undefined;
-            const len = try std.unicode.utf8Encode(@as(u21, 0x1D7D8 + (c - '0')), &buf);
+            const cp: u21 = @as(u21, 0x1D7D8) + @as(u21, c - '0');
+            const len = try std.unicode.utf8Encode(cp, &buf);
             try out.appendSlice(buf[0..len]);
         } else {
             try out.append(c);
